@@ -1,0 +1,27 @@
+.card {
+  @apply bg-white rounded-lg shadow-card overflow-hidden;
+}
+
+.hover {
+  @apply hover:shadow-card-hover transition-shadow;
+}
+
+.bordered {
+  @apply border border-gray-200;
+}
+
+.header {
+  @apply p-5 border-b border-gray-200;
+}
+
+.headerTitle {
+  @apply font-heading font-semibold text-lg text-dark-700;
+}
+
+.body {
+  @apply p-5;
+}
+
+.footer {
+  @apply p-3 border-t border-gray-200 bg-gray-50;
+} 

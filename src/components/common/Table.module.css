@@ -1,0 +1,43 @@
+.container {
+  @apply mt-6;
+}
+
+.wrapper {
+  @apply bg-white rounded-xl shadow-card overflow-hidden;
+}
+
+.table {
+  @apply min-w-full table-auto border-collapse;
+}
+
+.tableHead {
+  @apply bg-gray-50 border-b;
+}
+
+.headerCell {
+  @apply py-3 px-4 text-left text-dark-600 font-medium;
+}
+
+.row {
+  @apply border-b hover:bg-gray-50 transition-colors;
+}
+
+.rowLast {
+  @apply hover:bg-gray-50 transition-colors;
+}
+
+.cell {
+  @apply py-3 px-4 text-dark-700;
+}
+
+.cellActions {
+  @apply py-3 px-4;
+}
+
+.editButton {
+  @apply bg-primary-500 hover:bg-primary-600 text-white px-3 py-1 rounded-md transition-colors text-sm;
+}
+
+.deleteButton {
+  @apply bg-accent-500 hover:bg-accent-600 text-white px-3 py-1 rounded-md transition-colors ml-2 text-sm;
+} 

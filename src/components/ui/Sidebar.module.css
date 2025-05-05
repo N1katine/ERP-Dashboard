@@ -1,0 +1,59 @@
+.sidebar {
+  @apply bg-primary-800 text-white transition-all duration-300 ease-in-out shadow-lg;
+}
+
+.sidebarOpen {
+  @apply w-64;
+}
+
+.sidebarClosed {
+  @apply w-20;
+}
+
+.header {
+  @apply p-4 flex items-center justify-between border-b border-primary-700;
+}
+
+.title {
+  @apply text-xl font-bold font-heading;
+}
+
+.toggleButton {
+  @apply p-1 rounded-full hover:bg-primary-700 focus:outline-none transition-colors;
+}
+
+.navContainer {
+  @apply mt-6;
+}
+
+.navItem {
+  @apply mb-2;
+}
+
+.navLink {
+  @apply flex items-center p-3 hover:bg-primary-700 rounded-lg mx-3 transition-colors;
+}
+
+.navLinkActive {
+  @apply bg-primary-700;
+}
+
+.navIcon {
+  @apply h-5 w-5;
+}
+
+.navText {
+  @apply ml-3 font-medium;
+}
+
+.footer {
+  @apply mt-auto p-4 border-t border-primary-700;
+}
+
+.helpText {
+  @apply text-xs text-primary-200;
+}
+
+.version {
+  @apply text-xs text-primary-300 mt-1;
+} 

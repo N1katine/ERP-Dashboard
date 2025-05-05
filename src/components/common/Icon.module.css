@@ -1,0 +1,15 @@
+.icon {
+  @apply inline-block;
+}
+
+.sm {
+  @apply h-4 w-4;
+}
+
+.md {
+  @apply h-5 w-5;
+}
+
+.lg {
+  @apply h-6 w-6;
+} 

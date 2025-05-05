@@ -1,0 +1,59 @@
+.container {
+  @apply p-8;
+}
+
+.title {
+  @apply text-3xl font-bold text-dark-700 font-heading;
+}
+
+.addButtonContainer {
+  @apply mt-6;
+}
+
+.addButton {
+  @apply bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors shadow-sm font-medium;
+}
+
+.tableContainer {
+  @apply mt-6;
+}
+
+.tableWrapper {
+  @apply bg-white rounded-xl shadow-card overflow-hidden;
+}
+
+.table {
+  @apply min-w-full table-auto border-collapse;
+}
+
+.tableHead {
+  @apply bg-gray-50 border-b;
+}
+
+.tableHeaderCell {
+  @apply py-3 px-4 text-left text-dark-600 font-medium;
+}
+
+.tableRow {
+  @apply border-b hover:bg-gray-50 transition-colors;
+}
+
+.tableRowLast {
+  @apply hover:bg-gray-50 transition-colors;
+}
+
+.tableCell {
+  @apply py-3 px-4 text-dark-700;
+}
+
+.tableCellActions {
+  @apply py-3 px-4;
+}
+
+.editButton {
+  @apply bg-primary-500 hover:bg-primary-600 text-white px-3 py-1 rounded-md transition-colors text-sm;
+}
+
+.deleteButton {
+  @apply bg-accent-500 hover:bg-accent-600 text-white px-3 py-1 rounded-md transition-colors ml-2 text-sm;
+} 

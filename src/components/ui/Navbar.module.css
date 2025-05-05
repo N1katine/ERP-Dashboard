@@ -1,0 +1,55 @@
+.navbar {
+  @apply bg-white shadow-sm flex items-center justify-between p-4;
+}
+
+.brand {
+  @apply flex items-center space-x-3;
+}
+
+.brandName {
+  @apply font-semibold text-xl text-dark-700 font-heading;
+}
+
+.actions {
+  @apply flex items-center space-x-4;
+}
+
+.searchContainer {
+  @apply hidden md:flex relative rounded-md;
+}
+
+.searchInput {
+  @apply py-2 px-3 pl-10 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500;
+}
+
+.searchIcon {
+  @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-dark-400;
+}
+
+.userSection {
+  @apply flex items-center space-x-3;
+}
+
+.notifications {
+  @apply relative;
+}
+
+.notificationButton {
+  @apply p-1 rounded-full hover:bg-gray-100 transition-colors;
+}
+
+.notificationBadge {
+  @apply absolute -top-1 -right-1 h-2 w-2 rounded-full bg-accent-500;
+}
+
+.userInfo {
+  @apply flex items-center space-x-2;
+}
+
+.userName {
+  @apply text-sm font-medium text-dark-500 hidden md:block;
+}
+
+.userAvatar {
+  @apply h-9 w-9 rounded-full bg-primary-600 flex items-center justify-center text-white shadow-md;
+} 
