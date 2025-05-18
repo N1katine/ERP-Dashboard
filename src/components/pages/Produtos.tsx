@@ -126,6 +126,7 @@ const Produtos: React.FC = () => {
       {/* Add Product Modal */}
       <Modal
         isOpen={isAddModalOpen}
+        size="lg"
         onClose={() => setIsAddModalOpen(false)}
         title="Adicionar Novo Produto"
       >
@@ -138,6 +139,7 @@ const Produtos: React.FC = () => {
       {/* Edit Product Modal */}
       {selectedProduct && (
         <Modal
+          size="lg"
           isOpen={isEditModalOpen}
           onClose={() => {
             setIsEditModalOpen(false)

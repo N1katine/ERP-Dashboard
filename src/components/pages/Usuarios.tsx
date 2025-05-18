@@ -130,6 +130,7 @@ const Usuarios: React.FC = () => {
 
       {/* Add User Modal */}
       <Modal
+        size="lg"
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         title="Adicionar Novo Usuário"
@@ -143,6 +144,7 @@ const Usuarios: React.FC = () => {
       {/* Edit User Modal */}
       {selectedUser && (
         <Modal
+          size="lg"
           isOpen={isEditModalOpen}
           onClose={() => {
             setIsEditModalOpen(false)

@@ -40,11 +40,11 @@ const Modal: React.FC<ModalProps> = ({
     e.stopPropagation()
   }
 
-  // Size classes
+  // Size classes with more distinct width differences
   const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-lg',
-    lg: 'max-w-2xl',
+    sm: 'w-full max-w-sm',
+    md: 'w-full max-w-lg',
+    lg: 'w-full max-w-3xl',
   }
 
   if (!isOpen) return null
