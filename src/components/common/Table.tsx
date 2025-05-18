@@ -1,5 +1,5 @@
-import * as React from 'react'
-import styles from './Table.module.css'
+import * as React from "react";
+import styles from "./Table.module.css";
 
 interface TableProps {
   children: React.ReactNode;
@@ -69,8 +69,13 @@ const TableRow: React.FC<TableRowProps> = ({ children, isLast = false }) => {
   return <tr className={isLast ? styles.rowLast : styles.row}>{children}</tr>;
 };
 
-const TableCell: React.FC<TableCellProps> = ({ children, isActions = false }) => {
-  return <td className={isActions ? styles.cellActions : styles.cell}>{children}</td>;
+const TableCell: React.FC<TableCellProps> = ({
+  children,
+  isActions = false,
+}) => {
+  return (
+    <td className={isActions ? styles.cellActions : styles.cell}>{children}</td>
+  );
 };
 
 const TableHeaderCell: React.FC<TableHeaderCellProps> = ({ children }) => {
@@ -103,4 +108,4 @@ const Table: TableComponent = Object.assign(TableContainer, {
   DeleteButton: DeleteButton,
 });
 
-export default Table; 
+export default Table;
