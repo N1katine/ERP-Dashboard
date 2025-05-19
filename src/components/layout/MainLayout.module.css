@@ -12,6 +12,14 @@
 
 .sidebarClosed {
   @apply min-w-20 w-auto;
+  .navLinkActive::before {
+    top: 38px;
+    right: 0;
+    height: 38px;
+    width: 38px;
+    border-top-right-radius: 18px;
+    box-shadow: 0 -20px 0 0 #f9fafb;
+  }
 }
 
 .sidebarHeader {
@@ -35,11 +43,48 @@
 }
 
 .navLink {
-  @apply flex items-center p-3 hover:bg-primary-700 rounded-lg mx-3 transition-colors;
+  @apply flex items-center p-3 rounded-lg;
 }
 
 .navLinkActive {
-  @apply bg-primary-700;
+  background-color: #f9fafb;
+  color: #000;
+  transition: none;
+}
+
+.navLinkActive::after,
+.navLinkActive::before {
+  content: '';
+  position: absolute;
+  background-color: transparent;
+}
+
+.navLinkActive::after {
+  bottom: 100%;
+  right: 0;
+  height: 38px;
+  width: 38px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 0 20px 0 0 #f9fafb;
+}
+
+.navLinkActive::before {
+  top: 44px;
+  right: 0;
+  height: 38px;
+  width: 38px;
+  border-top-right-radius: 18px;
+  box-shadow: 0 -20px 0 0 #f9fafb;
+}
+
+.navLinkActive {
+  /* @apply bg-primary-300; */
+  position: relative;
+
+  list-style: none;
+  padding: 10px;
+
+  border-radius: 30px 0 0 30px;
 }
 
 .navIcon {
