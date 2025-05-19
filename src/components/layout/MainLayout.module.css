@@ -15,7 +15,7 @@
 }
 
 .sidebarHeader {
-  @apply p-4 flex items-center justify-center;
+  @apply p-4 flex items-center justify-between;
 }
 
 .sidebarTitle {
