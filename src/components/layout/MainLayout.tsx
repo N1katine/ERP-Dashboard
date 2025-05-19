@@ -3,15 +3,16 @@ import { Link, Outlet } from '@tanstack/react-router'
 import {
   TableCellsIcon,
   DocumentTextIcon,
-  // ClipboardDocumentListIcon,
+  ClipboardDocumentListIcon,
   // ShoppingCartIcon,
   // WrenchScrewdriverIcon,
   // CalculatorIcon,
   // ClockIcon,
   ArchiveBoxIcon,
-  // BanknotesIcon,
+  BanknotesIcon,
   // BuildingOfficeIcon,
   UserGroupIcon,
+  Bars3Icon,
 } from '@heroicons/react/24/outline'
 import styles from './MainLayout.module.css'
 import Icon from '../common/Icon'
@@ -25,7 +26,9 @@ const MainLayout: React.FC = () => {
   
   const navigation = [
     { name: 'Dashboard', path: '/', icon: TableCellsIcon },
+    { name: 'Vendas', path: '/vendas', icon: BanknotesIcon },
     { name: 'Produtos', path: '/produtos', icon: ArchiveBoxIcon },
+    { name : 'Clientes', path: '/clientes', icon: ClipboardDocumentListIcon},
     { name: 'Usuários', path: '/usuarios', icon: UserGroupIcon },
     { name: 'Relatórios', path: '/relatorios', icon: DocumentTextIcon },
   ]
@@ -44,7 +47,7 @@ const MainLayout: React.FC = () => {
             onClick={toggleSidebar}
             className={styles.sidebarToggle}
           >
-            {sidebarOpen ? '◀' : '▶'}
+            <Bars3Icon className={`${styles.toggleIcon} ${sidebarOpen ? styles.rotateIcon : ''}`} />
           </button>
         </div>
         <nav className={styles.navContainer}>

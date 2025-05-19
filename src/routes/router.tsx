@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import Dashboard from '../components/pages/Dashboard'
+import Vendas from '../components/pages/Vendas'
 import Produtos from '../components/pages/Produtos'
+import Clientes from '../components/pages/Clientes'
 import Usuarios from '../components/pages/Usuarios'
 import Relatorios from '../components/pages/Relatorios'
 import { createRootRoute, createRoute } from '@tanstack/react-router'
@@ -17,10 +19,22 @@ const indexRoute = createRoute({
   component: Dashboard
 })
 
+const vendasRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/vendas',
+  component: Vendas
+})
+
 const produtosRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/produtos',
   component: Produtos
+})
+
+const clientesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/clientes',
+  component: Clientes
 })
 
 const usuariosRoute = createRoute({
@@ -37,7 +51,9 @@ const relatoriosRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  vendasRoute,
   produtosRoute,
+  clientesRoute,
   usuariosRoute,
   relatoriosRoute
 ])

@@ -100,4 +100,14 @@
 
 .mainContent {
   @apply flex-1 overflow-auto bg-gray-50 animate-fade-in;
+}
+
+.toggleIcon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.rotateIcon {
+  transform: rotate(180deg);
 } 
