@@ -13,6 +13,7 @@ import {
   // BuildingOfficeIcon,
   UserGroupIcon,
   Bars3Icon,
+  BellIcon,
 } from '@heroicons/react/24/outline'
 import styles from './MainLayout.module.css'
 import Icon from '../common/Icon'
@@ -81,7 +82,7 @@ const MainLayout: React.FC = () => {
             <div className={styles.headerActions}>
               <div className={styles.notificationContainer}>
                 <button className={styles.notificationButton}>
-                  🔔
+                  <BellIcon className={`${styles.toggleIcon}`} />
                 </button>
                 <span className={styles.notificationBadge}></span>
               </div>

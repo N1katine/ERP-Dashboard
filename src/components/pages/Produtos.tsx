@@ -77,17 +77,39 @@ const Produtos: React.FC = () => {
     setIsDeleteModalOpen(true)
   }
 
+  const metrics = [
+    { title: 'Produtos em Estoque', value: '342', change: '-5%', trend: 'down' }
+  ]
+
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Gerenciar Produtos</h2>
-      <div className={styles.addButtonContainer}>
-        <button
-          className={styles.addButton}
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          Adicionar Produto
-        </button>
+      <div className={styles.headerSection}>
+        <h2 className={styles.title}>Gerenciar Produtos</h2>
+          <p className={styles.subtitle}>Aqui você pode gerenciar e visualizar seus produtos.</p>
       </div>
+
+        {/* Metrics Cards */}
+      <div className={styles.metricsGrid}>
+        {metrics.map((metric, index) => (
+          <div key={index} className={styles.metricCard}>
+            <h3 className={styles.metricTitle}>{metric.title}</h3>
+            <div className={styles.metricValue}>
+              <p className={styles.metricNumber}>{metric.value}</p>
+              <span className={`${styles.metricChange} ${metric.trend === 'up' ? styles.metricUp : styles.metricDown}`}>
+                {metric.change}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+        <div className={styles.addButtonContainer}>
+          <button
+            className={styles.addButton}
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            Adicionar Produto
+          </button>
+        </div>
 
       {/* Products Table */}
       <div className="mt-6">

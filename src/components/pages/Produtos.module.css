@@ -2,8 +2,48 @@
   @apply p-8;
 }
 
+.headerSection {
+  @apply mb-8;
+}
+
 .title {
   @apply text-3xl font-bold text-dark-700 font-heading;
+}
+
+.subtitle {
+  @apply text-dark-500 mt-2;
+}
+
+.metricsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8;
+}
+
+.metricCard {
+  @apply bg-white rounded-lg shadow-card hover:shadow-card-hover transition-shadow p-6 border-l-4 border-primary-500;
+}
+
+.metricTitle {
+  @apply text-dark-400 text-sm font-medium uppercase tracking-wider;
+}
+
+.metricValue {
+  @apply flex items-baseline mt-2;
+}
+
+.metricNumber {
+  @apply text-2xl font-semibold text-dark-800;
+}
+
+.metricChange {
+  @apply ml-2 text-sm font-medium;
+}
+
+.metricUp {
+  @apply text-secondary-600;
+}
+
+.metricDown {
+  @apply text-accent-600;
 }
 
 .addButtonContainer {

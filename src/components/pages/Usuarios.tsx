@@ -85,6 +85,7 @@ const Usuarios: React.FC = () => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Gerenciar Usuários</h2>
+      <p className={styles.subtitle}>Aqui você pode gerenciar e visualizar seus produtos.</p>
       <div className={styles.addButtonContainer}>
         <button
           className={styles.addButton}

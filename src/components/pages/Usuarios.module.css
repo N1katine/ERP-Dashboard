@@ -6,6 +6,10 @@
   @apply text-3xl font-bold text-dark-700 font-heading;
 }
 
+.subtitle {
+  @apply text-dark-500 mt-2;
+}
+
 .addButtonContainer {
   @apply mt-6;
 }

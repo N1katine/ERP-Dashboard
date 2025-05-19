@@ -1,7 +1,6 @@
 .container {
-  @apply p-6;
+  @apply p-8;
 }
-
 .headerSection {
   @apply mb-8;
 }

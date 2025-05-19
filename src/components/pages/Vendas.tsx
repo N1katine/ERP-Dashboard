@@ -1,158 +1,197 @@
 import * as React from 'react'
 import styles from './Vendas.module.css'
+import Table from '../common/Table'
+import Modal from '../modals/Modal'
+import { formatCurrency } from '../../lib/formatters'
+import { useSellStore } from '../../hooks/useSellStore'
+import SellForm from '../sells/SellForm'
+import ConfirmationModal from '../modals/ConfirmationModal'
+import type { Sell } from '../../types/sell'
+
+// Helper component for table rows
+const SellTableRow: React.FC<{
+  sell: Sell
+  onEdit: (sell: Sell) => void
+  onDelete: (sell: Sell) => void
+  isLast: boolean
+}> = ({ sell, onEdit, onDelete, isLast }) => {
+  return (
+    <Table.Row isLast={isLast}>
+      <Table.Cell>{sell.name}</Table.Cell>
+      <Table.Cell>{formatCurrency(sell.price)}</Table.Cell>
+      <Table.Cell isActions>
+        <Table.EditButton onClick={() => onEdit(sell)}>
+          Editar
+        </Table.EditButton>
+        <Table.DeleteButton onClick={() => onDelete(sell)}>
+          Excluir
+        </Table.DeleteButton>
+      </Table.Cell>
+    </Table.Row>
+  )
+}
 
 const Vendas: React.FC = () => {
-  // Sample report types
-  const reportTypes = [
-    { id: 'vendas', name: 'Relatório de Vendas' },
-    { id: 'estoque', name: 'Relatório de Estoque' },
-    { id: 'financeiro', name: 'Relatório Financeiro' },
-    { id: 'clientes', name: 'Relatório de Clientes' }
-  ]
+  const { sells, addSell, updateSell, deleteSell } =
+    useSellStore()
 
-  const [selectedReport, setSelectedReport] = React.useState('vendas')
+  // State for modals
+  const [isAddModalOpen, setIsAddModalOpen] = React.useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = React.useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false)
+  const [selectedSell, setSelectedSell] = React.useState<Sell | null>(
+    null,
+  )
+
+  // Handlers for sell actions
+  const handleAddSell = (sellData: Omit<Sell, 'id'>) => {
+    addSell(sellData)
+    setIsAddModalOpen(false)
+  }
+
+  const handleUpdateSell = (sellData: Omit<Sell, 'id'>) => {
+    if (selectedSell) {
+      updateSell(selectedSell.id, sellData)
+      setIsEditModalOpen(false)
+      setSelectedSell(null)
+    }
+  }
+
+  const handleDeleteConfirm = () => {
+    if (selectedSell) {
+      deleteSell(selectedSell.id)
+      setSelectedSell(null)
+    }
+  }
+
+  // Open edit modal with selected sell
+  const openEditModal = (sell: Sell) => {
+    setSelectedSell(sell)
+    setIsEditModalOpen(true)
+  }
+
+  // Open delete confirmation modal
+  const openDeleteModal = (sell: Sell) => {
+    setSelectedSell(sell)
+    setIsDeleteModalOpen(true)
+  }
+
+  const metrics = [
+    { title: 'Vendas do Mês', value: 'R$ 45.678,00', change: '+15%', trend: 'up' },
+    { title: 'Produtos em Estoque', value: '342', change: '-5%', trend: 'down' }
+  ]
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Relatórios</h2>
-      <p className={styles.subtitle}>Aqui você pode gerar e visualizar relatórios da empresa.</p>
-      
-      <div className={styles.reportGrid}>
-        {/* Report Selection */}
-        <div className={styles.sidebarCol}>
-          <div className={styles.sidebarCard}>
-            <h3 className={styles.sectionTitle}>Tipo de Relatório</h3>
-            <div className={styles.filterGroup}>
-              {reportTypes.map(report => (
-                <button
-                  key={report.id}
-                  className={`w-full text-left p-3 rounded-lg transition-colors ${
-                    selectedReport === report.id 
-                      ? 'bg-primary-100 text-primary-800 font-medium' 
-                      : 'bg-gray-50 hover:bg-gray-100 text-dark-600'
-                  }`}
-                  onClick={() => setSelectedReport(report.id)}
-                >
-                  {report.name}
-                </button>
-              ))}
-            </div>
-            
-            <div className={styles.periodSection}>
-              <h4 className={styles.periodTitle}>Período</h4>
-              <div className={styles.fieldGroup}>
-                <div>
-                  <label className={styles.fieldLabel}>Data Inicial</label>
-                  <input 
-                    type="date" 
-                    className={styles.dateInput}
-                  />
-                </div>
-                <div>
-                  <label className={styles.fieldLabel}>Data Final</label>
-                  <input 
-                    type="date" 
-                    className={styles.dateInput}
-                  />
-                </div>
-              </div>
-              
-              <button className={styles.generateButton}>
-                Gerar Relatório
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        {/* Report Preview */}
-        <div className={styles.contentCol}>
-          <div className={styles.contentCard}>
-            <div className={styles.headerRow}>
-              <h3 className={styles.reportTitle}>
-                {reportTypes.find(r => r.id === selectedReport)?.name}
-              </h3>
-              <div className={styles.actionButtons}>
-                <button className={styles.actionButton}>
-                  Imprimir
-                </button>
-                <button className={styles.actionButton}>
-                  Exportar PDF
-                </button>
-                <button className={styles.actionButton}>
-                  Exportar Excel
-                </button>
-              </div>
-            </div>
-            
-            {/* Mock Report Content - would be dynamic based on selectedReport */}
-            <div className={styles.reportContent}>
-              {selectedReport === 'vendas' && (
-                <div>
-                  <div className={styles.summaryRow}>
-                    <h4 className={styles.summaryItem}>Total de Vendas: <span className={styles.summaryValue}>R$ 125.430,00</span></h4>
-                    <h4 className={styles.summaryItem}>Período: <span className={styles.summaryText}>01/04/2025 - 30/04/2025</span></h4>
-                  </div>
-                  
-                  <div className={styles.chartContainer}>
-                    <div className={styles.chartPlaceholder}>
-                      <p className={styles.placeholderText}>Gráfico de vendas seria exibido aqui</p>
-                    </div>
-                  </div>
-                  
-                  <div className={styles.tableWrapper}>
-                    <table className={styles.dataTable}>
-                      <thead className={styles.tableHead}>
-                        <tr>
-                          <th className={styles.tableHeaderCell}>Data</th>
-                          <th className={styles.tableHeaderCell}>ID</th>
-                          <th className={styles.tableHeaderCell}>Cliente</th>
-                          <th className={styles.tableHeaderCell}>Valor</th>
-                          <th className={styles.tableHeaderCell}>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody className={styles.tableBody}>
-                        <tr>
-                          <td className={styles.tableCell}>05/04/2025</td>
-                          <td className={styles.tableCell}>#1001</td>
-                          <td className={styles.tableCell}>Cliente ABC Ltda</td>
-                          <td className={styles.tableCell}>R$ 1.250,00</td>
-                          <td className={styles.tableCell}>
-                            <span className={`${styles.statusBadge} ${styles.paidBadge}`}>Pago</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className={styles.tableCell}>12/04/2025</td>
-                          <td className={styles.tableCell}>#1002</td>
-                          <td className={styles.tableCell}>Cliente XYZ S.A.</td>
-                          <td className={styles.tableCell}>R$ 3.750,00</td>
-                          <td className={styles.tableCell}>
-                            <span className={`${styles.statusBadge} ${styles.paidBadge}`}>Pago</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className={styles.tableCell}>18/04/2025</td>
-                          <td className={styles.tableCell}>#1003</td>
-                          <td className={styles.tableCell}>Cliente DEF ME</td>
-                          <td className={styles.tableCell}>R$ 850,00</td>
-                          <td className={styles.tableCell}>
-                            <span className={`${styles.statusBadge} ${styles.pendingBadge}`}>Pendente</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
-              
-              {selectedReport !== 'vendas' && (
-                <div className={styles.emptyState}>
-                  <p className={styles.emptyStateText}>Selecione um relatório e clique em "Gerar Relatório" para visualizar os dados.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+      <div className={styles.headerSection}>
+        <h2 className={styles.title}>Vendas</h2>
+        <p className={styles.subtitle}>Aqui você pode gerenciar e visualizar as vendas da empresa.</p>
       </div>
+
+      {/* Metrics Cards */}
+      <div className={styles.metricsGrid}>
+        {metrics.map((metric, index) => (
+          <div key={index} className={styles.metricCard}>
+            <h3 className={styles.metricTitle}>{metric.title}</h3>
+            <div className={styles.metricValue}>
+              <p className={styles.metricNumber}>{metric.value}</p>
+              <span className={`${styles.metricChange} ${metric.trend === 'up' ? styles.metricUp : styles.metricDown}`}>
+                {metric.change}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Add Button */}
+      <div className={styles.addButtonContainer}>
+          <button
+            className={styles.addButton}
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            Adicionar Venda
+          </button>
+        </div>
+
+      {/* Sells Table */}
+      <div className="mt-6">
+        <Table>
+          <Table.Head>
+            <tr>
+              <Table.HeaderCell>Nome</Table.HeaderCell>
+              <Table.HeaderCell>Preço</Table.HeaderCell>
+              <Table.HeaderCell>Ações</Table.HeaderCell>
+            </tr>
+          </Table.Head>
+          <Table.Body>
+            {sells.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="py-6 text-center text-gray-500">
+                  Nenhuma venda registrada. Clique em "Adicionar Venda" para
+                  começar.
+                </td>
+              </tr>
+            ) : (
+              sells.map((sell, index) => (
+                <SellTableRow
+                  key={sell.id}
+                  sell={sell}
+                  onEdit={openEditModal}
+                  onDelete={openDeleteModal}
+                  isLast={index === sells.length - 1}
+                />
+              ))
+            )}
+          </Table.Body>
+        </Table>
+      </div>
+
+      {/* Add Sell Modal */}
+      <Modal
+        isOpen={isAddModalOpen}
+        size="lg"
+        onClose={() => setIsAddModalOpen(false)}
+        title="Adicionar Novo Produto"
+      >
+        <SellForm
+          onSubmit={handleAddSell}
+          onCancel={() => setIsAddModalOpen(false)}
+        />
+      </Modal>
+
+      {/* Edit Sell Modal */}
+      {selectedSell && (
+        <Modal
+          size="lg"
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false)
+            setSelectedSell(null)
+          }}
+          title="Editar Produto"
+        >
+          <SellForm
+            sell={selectedSell}
+            onSubmit={handleUpdateSell}
+            onCancel={() => {
+              setIsEditModalOpen(false)
+              setSelectedSell(null)
+            }}
+          />
+        </Modal>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        title="Confirmar Exclusão"
+        message={`Tem certeza que deseja excluir o produto "${selectedSell?.name}"? Esta ação não pode ser desfeita.`}
+        confirmText="Excluir"
+        cancelText="Cancelar"
+        variant="danger"
+      />
     </div>
   )
 }

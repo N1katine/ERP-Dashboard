@@ -1,0 +1,123 @@
+.container {
+    @apply p-8;
+  }
+  
+  .headerSection {
+    @apply mb-8;
+  }
+  
+  .title {
+    @apply text-3xl font-bold text-dark-700 font-heading;
+  }
+  
+  .subtitle {
+    @apply text-dark-500 mt-2;
+  }
+  
+  .metricsGrid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8;
+  }
+  
+  .metricCard {
+    @apply bg-white rounded-lg shadow-card hover:shadow-card-hover transition-shadow p-6 border-l-4 border-primary-500;
+  }
+  
+  .metricTitle {
+    @apply text-dark-400 text-sm font-medium uppercase tracking-wider;
+  }
+  
+  .metricValue {
+    @apply flex items-baseline mt-2;
+  }
+  
+  .metricNumber {
+    @apply text-2xl font-semibold text-dark-800;
+  }
+  
+  .metricChange {
+    @apply ml-2 text-sm font-medium;
+  }
+  
+  .metricUp {
+    @apply text-secondary-600;
+  }
+  
+  .metricDown {
+    @apply text-accent-600;
+  }
+  
+  .contentGrid {
+    @apply grid grid-cols-1 lg:grid-cols-3 gap-6;
+  }
+  
+  .quickAccessSection {
+    @apply bg-white rounded-xl shadow-card lg:col-span-1;
+  }
+  
+  .activitiesSection {
+    @apply bg-white rounded-xl shadow-card lg:col-span-2;
+  }
+  
+  .sectionTitle {
+    @apply font-heading font-semibold text-lg text-dark-700;
+  }
+  
+  .quickAccessList {
+    @apply space-y-3;
+  }
+  
+  .quickAccessItem {
+    @apply block bg-gray-50 hover:bg-gray-100 p-4 rounded-lg transition-colors;
+  }
+  
+  .quickAccessContent {
+    @apply flex justify-between items-center;
+  }
+  
+  .itemWithIcon {
+    @apply flex items-center;
+  }
+  
+  .itemIcon {
+    @apply text-lg mr-3;
+  }
+  
+  .itemText {
+    @apply font-medium text-dark-600;
+  }
+  
+  .arrow {
+    @apply text-primary-600;
+  }
+  
+  .activitiesList {
+    @apply space-y-4;
+  }
+  
+  .activityItem {
+    @apply border-b pb-4 last:border-0 last:pb-0;
+  }
+  
+  .activityContent {
+    @apply flex flex-col;
+  }
+  
+  .activityAction {
+    @apply font-medium text-dark-700;
+  }
+  
+  .activityDetail {
+    @apply text-sm text-dark-500;
+  }
+  
+  .activityTime {
+    @apply text-xs text-dark-400 mt-1;
+  }
+  
+  .viewMoreFooter {
+    @apply p-3 border-t bg-gray-50 text-center rounded-b-xl;
+  }
+  
+  .viewMoreLink {
+    @apply text-primary-600 hover:text-primary-700 text-sm font-medium transition-colors;
+  } 
