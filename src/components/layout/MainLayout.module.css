@@ -3,7 +3,7 @@
 }
 
 .sidebar {
-  @apply bg-primary-800 text-white transition-all duration-300 ease-in-out shadow-lg;
+  @apply bg-gradient-to-r from-primary-800 to-primary-700 text-white transition-all duration-300 ease-in-out shadow-inner rounded-ee-full;
 }
 
 .sidebarOpen {
@@ -11,11 +11,11 @@
 }
 
 .sidebarClosed {
-  @apply w-20;
+  @apply min-w-20 w-auto;
 }
 
 .sidebarHeader {
-  @apply p-4 flex items-center justify-between border-b border-primary-700;
+  @apply p-4 flex items-center justify-center;
 }
 
 .sidebarTitle {
@@ -105,9 +105,10 @@
 .toggleIcon {
   width: 24px;
   height: 24px;
+  margin-right: -8px;
   transition: transform 0.3s ease;
 }
 
 .rotateIcon {
   transform: rotate(180deg);
-} 
+}
