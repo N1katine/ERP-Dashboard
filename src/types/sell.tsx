@@ -4,6 +4,7 @@ export interface Sell {
     price: string
     description: string
     stock: number
+    productId: string
     createdAt?: Date
     updatedAt?: Date
   }

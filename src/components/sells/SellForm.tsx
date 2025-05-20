@@ -1,9 +1,9 @@
 import { useState, type FC, type FormEvent } from 'react'
 import {
-  extractNumericValueFromCurrency,
   formatAsBrazilianCurrency,
 } from '../../lib/formatters'
 import type { Sell } from '../../types/sell'
+import { useProductStore } from '../../hooks/useProductStore'
 
 interface SellFormProps {
   sell?: Sell
@@ -12,28 +12,29 @@ interface SellFormProps {
 }
 
 const SellForm: FC<SellFormProps> = ({ sell, onSubmit, onCancel }) => {
-  const [name, setName] = useState(sell?.name || '')
-  // Format the initial price value if a sell is provided
-  // Use isDecimal=true when formatting the sell.price from localStorage
-  const [price, setPrice] = useState(
-    sell?.price ? formatAsBrazilianCurrency(sell.price, true) : '',
-  )
+  const { products } = useProductStore()
+  const [quantity, setQuantity] = useState(sell?.stock?.toString() || '')
   const [description, setDescription] = useState(sell?.description || '')
-  const [stock, setStock] = useState(sell?.stock?.toString() || '')
+  const [selectedProductId, setSelectedProductId] = useState(sell?.productId || '')
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // When user is typing, use default isDecimal=false
-    const formattedValue = formatAsBrazilianCurrency(e.target.value)
-    setPrice(formattedValue)
-  }
+  const selectedProduct = products.find(p => p.id === selectedProductId)
+  const maxQuantity = selectedProduct?.stock || 0
+  const unitPrice = selectedProduct ? parseFloat(selectedProduct.price) : 0
+  const totalPrice = unitPrice * (parseInt(quantity) || 0)
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    const quantityNum = parseInt(quantity) || 0
+    if (quantityNum > maxQuantity) {
+      alert('A quantidade não pode ser maior que o estoque disponível')
+      return
+    }
     onSubmit({
-      name,
-      price: extractNumericValueFromCurrency(price),
+      name: selectedProduct?.name || '',
+      price: totalPrice.toString(),
       description,
-      stock: parseInt(stock) || 0,
+      stock: quantityNum,
+      productId: selectedProductId,
     })
   }
 
@@ -41,53 +42,61 @@ const SellForm: FC<SellFormProps> = ({ sell, onSubmit, onCancel }) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label
-          htmlFor="name"
+          htmlFor="product"
           className="block text-sm font-medium text-gray-700"
         >
-          Nome do Produto
+          Produto
         </label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+        <select
+          id="product"
+          value={selectedProductId}
+          onChange={(e) => {
+            setSelectedProductId(e.target.value)
+            setQuantity('') // Reset quantity when product changes
+          }}
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
           required
-        />
+        >
+          <option value="">Selecione um produto</option>
+          {products.map((product) => (
+            <option key={product.id} value={product.id}>
+              {product.name} (Estoque: {product.stock} - Preço: {formatAsBrazilianCurrency(product.price, true)})
+            </option>
+          ))}
+        </select>
       </div>
 
       <div>
         <label
-          htmlFor="price"
+          htmlFor="quantity"
           className="block text-sm font-medium text-gray-700"
         >
-          Preço (R$)
-        </label>
-        <input
-          type="text"
-          id="price"
-          value={price}
-          onChange={handlePriceChange}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-          required
-        />
-      </div>
-
-      {/* <div>
-        <label
-          htmlFor="stock"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Estoque
+          Quantidade
         </label>
         <input
           type="number"
-          id="stock"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
+          id="quantity"
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
+          min="1"
+          max={maxQuantity}
           className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+          required
         />
-      </div> */}
+        {selectedProduct && (
+          <div className="mt-2 space-y-1">
+            <p className="text-sm text-gray-500">
+              Estoque disponível: {maxQuantity} unidades
+            </p>
+            <p className="text-sm text-gray-500">
+              Preço unitário: {formatAsBrazilianCurrency(unitPrice, true)}
+            </p>
+            <p className="text-sm font-medium text-gray-700">
+              Valor total: {formatAsBrazilianCurrency(totalPrice, true)}
+            </p>
+          </div>
+        )}
+      </div>
 
       <div>
         <label
