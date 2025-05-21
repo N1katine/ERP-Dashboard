@@ -4,6 +4,7 @@ import Table from '../common/Table'
 import Modal from '../modals/Modal'
 import { formatCurrency } from '../../lib/formatters'
 import { useSellStore } from '../../hooks/useSellStore'
+import { useProductStore } from '../../hooks/useProductStore'
 import SellForm from '../sells/SellForm'
 import ConfirmationModal from '../modals/ConfirmationModal'
 import type { Sell } from '../../types/sell'
@@ -18,7 +19,9 @@ const SellTableRow: React.FC<{
   return (
     <Table.Row isLast={isLast}>
       <Table.Cell>{sell.name}</Table.Cell>
+      <Table.Cell>{sell.stock} unidades</Table.Cell>
       <Table.Cell>{formatCurrency(sell.price)}</Table.Cell>
+      <Table.Cell>Cliente</Table.Cell>
       <Table.Cell isActions>
         <Table.EditButton onClick={() => onEdit(sell)}>
           Editar
@@ -34,6 +37,7 @@ const SellTableRow: React.FC<{
 const Vendas: React.FC = () => {
   const { sells, addSell, updateSell, deleteSell } =
     useSellStore()
+  const { products, updateProduct } = useProductStore()
 
   // State for modals
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false)
@@ -45,12 +49,35 @@ const Vendas: React.FC = () => {
 
   // Handlers for sell actions
   const handleAddSell = (sellData: Omit<Sell, 'id'>) => {
+    // Update product stock
+    const product = products.find(p => p.id === sellData.productId)
+    if (product) {
+      const newStock = product.stock - sellData.stock
+      updateProduct(product.id, {
+        ...product,
+        stock: newStock
+      })
+    }
+    
     addSell(sellData)
     setIsAddModalOpen(false)
   }
 
   const handleUpdateSell = (sellData: Omit<Sell, 'id'>) => {
     if (selectedSell) {
+      // Calculate stock difference
+      const stockDifference = selectedSell.stock - sellData.stock
+      
+      // Update product stock
+      const product = products.find(p => p.id === sellData.productId)
+      if (product) {
+        const newStock = product.stock + stockDifference
+        updateProduct(product.id, {
+          ...product,
+          stock: newStock
+        })
+      }
+
       updateSell(selectedSell.id, sellData)
       setIsEditModalOpen(false)
       setSelectedSell(null)
@@ -59,6 +86,16 @@ const Vendas: React.FC = () => {
 
   const handleDeleteConfirm = () => {
     if (selectedSell) {
+      // Restore product stock
+      const product = products.find(p => p.id === selectedSell.productId)
+      if (product) {
+        const newStock = product.stock + selectedSell.stock
+        updateProduct(product.id, {
+          ...product,
+          stock: newStock
+        })
+      }
+
       deleteSell(selectedSell.id)
       setSelectedSell(null)
     }
@@ -119,7 +156,9 @@ const Vendas: React.FC = () => {
           <Table.Head>
             <tr>
               <Table.HeaderCell>Nome</Table.HeaderCell>
+              <Table.HeaderCell>Quantidade</Table.HeaderCell>
               <Table.HeaderCell>Preço</Table.HeaderCell>
+              <Table.HeaderCell>Cliente</Table.HeaderCell>
               <Table.HeaderCell>Ações</Table.HeaderCell>
             </tr>
           </Table.Head>
@@ -151,7 +190,7 @@ const Vendas: React.FC = () => {
         isOpen={isAddModalOpen}
         size="lg"
         onClose={() => setIsAddModalOpen(false)}
-        title="Adicionar Novo Produto"
+        title="Adicionar Nova Venda"
       >
         <SellForm
           onSubmit={handleAddSell}
@@ -168,7 +207,7 @@ const Vendas: React.FC = () => {
             setIsEditModalOpen(false)
             setSelectedSell(null)
           }}
-          title="Editar Produto"
+          title="Editar Venda"
         >
           <SellForm
             sell={selectedSell}
@@ -187,7 +226,7 @@ const Vendas: React.FC = () => {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeleteConfirm}
         title="Confirmar Exclusão"
-        message={`Tem certeza que deseja excluir o produto "${selectedSell?.name}"? Esta ação não pode ser desfeita.`}
+        message={`Tem certeza que deseja excluir a venda "${selectedSell?.name}"? Esta ação não pode ser desfeita.`}
         confirmText="Excluir"
         cancelText="Cancelar"
         variant="danger"

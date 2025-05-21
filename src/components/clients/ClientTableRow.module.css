@@ -1,0 +1,55 @@
+.detailsRow {
+  @apply bg-gray-50;
+}
+
+.clientDetails {
+  @apply p-4;
+}
+
+.detailsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 mb-4;
+}
+
+.detailItem {
+  @apply flex items-start;
+}
+
+.detailIcon {
+  @apply text-primary-500 mr-3 mt-1;
+}
+
+.detailLabel {
+  @apply block text-xs text-dark-400;
+}
+
+.detailValue {
+  @apply block text-sm font-medium text-dark-700;
+}
+
+.detailsActions {
+  @apply flex flex-wrap gap-2;
+}
+
+.detailActionButton {
+  @apply flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-sm font-medium text-dark-600 transition-colors;
+}
+
+.actionIcon {
+  @apply mr-1.5 text-primary-500;
+}
+
+.segmentBadge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.segmentRetail {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.segmentWholesale {
+  @apply bg-green-100 text-green-800;
+}
+
+.segmentCorporate {
+  @apply bg-purple-100 text-purple-800;
+}

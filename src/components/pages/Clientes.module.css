@@ -1,123 +1,187 @@
 .container {
-    @apply p-8;
-  }
-  
-  .headerSection {
-    @apply mb-8;
-  }
-  
-  .title {
-    @apply text-3xl font-bold text-dark-700 font-heading;
-  }
-  
-  .subtitle {
-    @apply text-dark-500 mt-2;
-  }
-  
-  .metricsGrid {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8;
-  }
-  
-  .metricCard {
-    @apply bg-white rounded-lg shadow-card hover:shadow-card-hover transition-shadow p-6 border-l-4 border-primary-500;
-  }
-  
-  .metricTitle {
-    @apply text-dark-400 text-sm font-medium uppercase tracking-wider;
-  }
-  
-  .metricValue {
-    @apply flex items-baseline mt-2;
-  }
-  
-  .metricNumber {
-    @apply text-2xl font-semibold text-dark-800;
-  }
-  
-  .metricChange {
-    @apply ml-2 text-sm font-medium;
-  }
-  
-  .metricUp {
-    @apply text-secondary-600;
-  }
-  
-  .metricDown {
-    @apply text-accent-600;
-  }
-  
-  .contentGrid {
-    @apply grid grid-cols-1 lg:grid-cols-3 gap-6;
-  }
-  
-  .quickAccessSection {
-    @apply bg-white rounded-xl shadow-card lg:col-span-1;
-  }
-  
-  .activitiesSection {
-    @apply bg-white rounded-xl shadow-card lg:col-span-2;
-  }
-  
-  .sectionTitle {
-    @apply font-heading font-semibold text-lg text-dark-700;
-  }
-  
-  .quickAccessList {
-    @apply space-y-3;
-  }
-  
-  .quickAccessItem {
-    @apply block bg-gray-50 hover:bg-gray-100 p-4 rounded-lg transition-colors;
-  }
-  
-  .quickAccessContent {
-    @apply flex justify-between items-center;
-  }
-  
-  .itemWithIcon {
-    @apply flex items-center;
-  }
-  
-  .itemIcon {
-    @apply text-lg mr-3;
-  }
-  
-  .itemText {
-    @apply font-medium text-dark-600;
-  }
-  
-  .arrow {
-    @apply text-primary-600;
-  }
-  
-  .activitiesList {
-    @apply space-y-4;
-  }
-  
-  .activityItem {
-    @apply border-b pb-4 last:border-0 last:pb-0;
-  }
-  
-  .activityContent {
-    @apply flex flex-col;
-  }
-  
-  .activityAction {
-    @apply font-medium text-dark-700;
-  }
-  
-  .activityDetail {
-    @apply text-sm text-dark-500;
-  }
-  
-  .activityTime {
-    @apply text-xs text-dark-400 mt-1;
-  }
-  
-  .viewMoreFooter {
-    @apply p-3 border-t bg-gray-50 text-center rounded-b-xl;
-  }
-  
-  .viewMoreLink {
-    @apply text-primary-600 hover:text-primary-700 text-sm font-medium transition-colors;
-  } 
+  @apply p-8;
+}
+
+.headerSection {
+  @apply mb-8;
+}
+
+.title {
+  @apply text-3xl font-bold text-dark-700 font-heading;
+}
+
+.subtitle {
+  @apply text-dark-500 mt-2;
+}
+
+.metricsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8;
+}
+
+.metricCard {
+  @apply bg-white rounded-lg shadow-card hover:shadow-card-hover transition-shadow p-6 border-l-4 border-primary-500;
+}
+
+.metricTitle {
+  @apply text-dark-400 text-sm font-medium uppercase tracking-wider;
+}
+
+.metricValue {
+  @apply flex items-baseline mt-2;
+}
+
+.metricNumber {
+  @apply text-2xl font-semibold text-dark-800;
+}
+
+.metricChange {
+  @apply ml-2 text-sm font-medium;
+}
+
+.metricUp {
+  @apply text-secondary-600;
+}
+
+.metricDown {
+  @apply text-accent-600;
+}
+
+.contentGrid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-6;
+}
+
+.clientListSection {
+  @apply lg:col-span-2;
+}
+
+.sidebarContainer {
+  @apply lg:col-span-1 space-y-6;
+}
+
+.segmentsSection, .interactionsSection {
+  @apply bg-white rounded-xl shadow-card;
+}
+
+.sectionTitle {
+  @apply font-heading font-semibold text-lg text-dark-700;
+}
+
+.listHeader {
+  @apply flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0 mb-4;
+}
+
+.searchContainer {
+  @apply relative;
+}
+
+.searchInput {
+  @apply pl-4 pr-4 py-2 rounded-lg border border-gray-300 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+}
+
+.segmentBadge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.segmentRetail {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.segmentWholesale {
+  @apply bg-green-100 text-green-800;
+}
+
+.segmentCorporate {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.segmentsList {
+  @apply space-y-4;
+}
+
+.segmentItem {
+  @apply space-y-1;
+}
+
+.segmentInfo {
+  @apply flex justify-between items-center;
+}
+
+.segmentCount {
+  @apply text-xs text-dark-500;
+}
+
+.segmentBar {
+  @apply w-full bg-gray-200 rounded-full h-2;
+}
+
+.segmentProgress {
+  @apply h-2 rounded-full;
+}
+
+.progressRetail {
+  @apply bg-blue-500;
+}
+
+.progressWholesale {
+  @apply bg-green-500;
+}
+
+.progressCorporate {
+  @apply bg-purple-500;
+}
+
+.interactionsList {
+  @apply space-y-4;
+}
+
+.interactionItem {
+  @apply border-b pb-4 last:border-0 last:pb-0;
+}
+
+.interactionContent {
+  @apply flex flex-col;
+}
+
+.interactionClient {
+  @apply font-medium text-dark-700;
+}
+
+.interactionType {
+  @apply text-sm text-primary-600 font-medium;
+}
+
+.interactionDetail {
+  @apply text-sm text-dark-500;
+}
+
+.interactionDate {
+  @apply text-xs text-dark-400 mt-1;
+}
+
+.viewMoreFooter {
+  @apply p-3 border-t bg-gray-50 text-center rounded-b-xl;
+}
+
+.viewMoreLink {
+  @apply text-primary-600 hover:text-primary-700 text-sm font-medium transition-colors;
+}
+
+.actionButtons {
+  @apply flex flex-wrap gap-4 mb-8;
+}
+
+.actionButton {
+  @apply flex items-center px-4 py-2 rounded-lg font-medium transition-colors;
+}
+
+.primaryButton {
+  @apply bg-primary-600 hover:bg-primary-700 text-white;
+}
+
+.secondaryButton {
+  @apply bg-secondary-600 hover:bg-secondary-700 text-white;
+}
+
+.buttonIcon {
+  @apply mr-2 h-5 w-5;
+}

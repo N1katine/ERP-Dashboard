@@ -16,6 +16,8 @@ interface TableBodyProps {
 interface TableRowProps {
   children: React.ReactNode;
   isLast?: boolean;
+  isSelected?: boolean;
+  onClick?: () => void;
 }
 
 interface TableCellProps {
@@ -29,12 +31,17 @@ interface TableHeaderCellProps {
 
 interface EditButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 interface DeleteButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
+}
+
+interface ActionButtonProps {
+  children: React.ReactNode;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 type TableComponent = React.FC<TableProps> & {
@@ -45,6 +52,7 @@ type TableComponent = React.FC<TableProps> & {
   HeaderCell: React.FC<TableHeaderCellProps>;
   EditButton: React.FC<EditButtonProps>;
   DeleteButton: React.FC<DeleteButtonProps>;
+  ActionButton: React.FC<ActionButtonProps>;
 };
 
 const TableContainer: React.FC<TableProps> = ({ children }) => {
@@ -65,8 +73,15 @@ const TableBody: React.FC<TableBodyProps> = ({ children }) => {
   return <tbody>{children}</tbody>;
 };
 
-const TableRow: React.FC<TableRowProps> = ({ children, isLast = false }) => {
-  return <tr className={isLast ? styles.rowLast : styles.row}>{children}</tr>;
+const TableRow: React.FC<TableRowProps> = ({ children, isLast = false, isSelected = false, onClick }) => {
+  return (
+    <tr 
+      className={`${isLast ? styles.rowLast : styles.row} ${isSelected ? styles.rowSelected : ''}`}
+      onClick={onClick}
+    >
+      {children}
+    </tr>
+  );
 };
 
 const TableCell: React.FC<TableCellProps> = ({
@@ -98,6 +113,14 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ children, onClick }) => {
   );
 };
 
+const ActionButton: React.FC<ActionButtonProps> = ({ children, onClick }) => {
+  return (
+    <button className={styles.actionButton} onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
 const Table: TableComponent = Object.assign(TableContainer, {
   Head: TableHead,
   Body: TableBody,
@@ -106,6 +129,7 @@ const Table: TableComponent = Object.assign(TableContainer, {
   HeaderCell: TableHeaderCell,
   EditButton: EditButton,
   DeleteButton: DeleteButton,
+  ActionButton: ActionButton,
 });
 
 export default Table;

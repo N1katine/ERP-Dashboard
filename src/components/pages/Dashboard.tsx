@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router'
 import styles from './Dashboard.module.css'
 import Icon from '../common/Icon'
 import Card from '../ui/Card'
-import { TableCellsIcon, UserGroupIcon, ArchiveBoxIcon, DocumentTextIcon } from '@heroicons/react/24/outline'
+import { ClipboardDocumentListIcon, BanknotesIcon, UserGroupIcon, ArchiveBoxIcon, DocumentTextIcon } from '@heroicons/react/24/outline'
 
 const Dashboard: React.FC = () => {
   // Sample data - in a real app, this would come from API calls
@@ -22,10 +22,11 @@ const Dashboard: React.FC = () => {
   ]
 
   const quickAccessItems = [
+    { name: 'Gerenciar Vendas', path: '/vendas', icon: BanknotesIcon },
     { name: 'Gerenciar Produtos', path: '/produtos', icon: ArchiveBoxIcon },
+    { name: 'Gerenciar Clientes', path: '/clientes', icon: ClipboardDocumentListIcon },
     { name: 'Gerenciar Usuários', path: '/usuarios', icon: UserGroupIcon },
-    { name: 'Ver Relatórios', path: '/relatorios', icon: DocumentTextIcon },
-    { name: 'Criar Nova Venda', path: '#', icon: TableCellsIcon, isButton: true }
+    { name: 'Ver Relatórios', path: '/relatorios', icon: DocumentTextIcon }
   ]
 
   return (
@@ -60,27 +61,15 @@ const Dashboard: React.FC = () => {
             <ul className={styles.quickAccessList}>
               {quickAccessItems.map((item, index) => (
                 <li key={index}>
-                  {item.isButton ? (
-                    <button className={styles.quickAccessItem}>
-                      <div className={styles.quickAccessContent}>
-                        <div className={styles.itemWithIcon}>
-                          <Icon icon={item.icon} className={styles.itemIcon} />
-                          <span className={styles.itemText}>{item.name}</span>
-                        </div>
-                        <span className={styles.arrow}>→</span>
+                  <Link to={item.path} className={styles.quickAccessItem}>
+                    <div className={styles.quickAccessContent}>
+                      <div className={styles.itemWithIcon}>
+                        <Icon icon={item.icon} className={styles.itemIcon} />
+                        <span className={styles.itemText}>{item.name}</span>
                       </div>
-                    </button>
-                  ) : (
-                    <Link to={item.path} className={styles.quickAccessItem}>
-                      <div className={styles.quickAccessContent}>
-                        <div className={styles.itemWithIcon}>
-                          <Icon icon={item.icon} className={styles.itemIcon} />
-                          <span className={styles.itemText}>{item.name}</span>
-                        </div>
-                        <span className={styles.arrow}>→</span>
-                      </div>
-                    </Link>
-                  )}
+                      <span className={styles.arrow}>→</span>
+                    </div>
+                  </Link>
                 </li>
               ))}
             </ul>
