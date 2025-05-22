@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styles from './ClientForm.module.css'
 import type { Client, ClientSegment } from '../../types/client'
+import { useProductStore } from '../../hooks/useProductStore'
+import { formatAsBrazilianCurrency } from '../../lib/formatters'
 
 interface ClientFormProps {
   client?: Client
@@ -9,6 +11,7 @@ interface ClientFormProps {
 }
 
 const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) => {
+  const { products } = useProductStore()
   const [formData, setFormData] = React.useState({
     name: client?.name || '',
     email: client?.email || '',
@@ -17,8 +20,14 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
     lastPurchase: client?.lastPurchase || '',
     value: client?.value || '',
     address: client?.address || '',
-    notes: client?.notes || ''
+    notes: client?.notes || '',
+    productId: client?.productId || '',
+    quantity: client?.quantity || 1
   })
+
+  const selectedProduct = products.find(p => p.id === formData.productId)
+  const unitPrice = selectedProduct ? parseFloat(selectedProduct.price) : 0
+  const totalValue = unitPrice * (formData.quantity || 0)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -30,7 +39,10 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    onSubmit({
+      ...formData,
+      value: totalValue.toString()
+    })
   }
 
   return (
@@ -42,7 +54,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
             type="text"
             id="name"
             name="name"
-            className={styles.formInput}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             value={formData.name}
             onChange={handleChange}
             required
@@ -54,10 +66,9 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
             type="email"
             id="email"
             name="email"
-            className={styles.formInput}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             value={formData.email}
             onChange={handleChange}
-            required
           />
         </div>
       </div>
@@ -68,10 +79,9 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
             type="text"
             id="phone"
             name="phone"
-            className={styles.formInput}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             value={formData.phone}
             onChange={handleChange}
-            required
           />
         </div>
         <div className={styles.formGroup}>
@@ -79,7 +89,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
           <select
             id="segment"
             name="segment"
-            className={styles.formSelect}
+            className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             value={formData.segment}
             onChange={handleChange}
             required
@@ -92,45 +102,75 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
       </div>
       <div className={styles.formRow}>
         <div className={styles.formGroup}>
-          <label htmlFor="lastPurchase" className={styles.formLabel}>Última Compra</label>
-          <input
-            type="text"
+          <label htmlFor="lastPurchase" className={styles.formLabel}>Data</label>
+          <input 
+            type="date" 
             id="lastPurchase"
             name="lastPurchase"
-            className={styles.formInput}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             value={formData.lastPurchase}
             onChange={handleChange}
+            required
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="value" className={styles.formLabel}>Valor</label>
+          <label htmlFor="address" className={styles.formLabel}>Endereço</label>
           <input
             type="text"
-            id="value"
-            name="value"
-            className={styles.formInput}
-            value={formData.value}
+            id="address"
+            name="address"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            value={formData.address}
             onChange={handleChange}
           />
         </div>
       </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="address" className={styles.formLabel}>Endereço</label>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          className={styles.formInput}
-          value={formData.address}
-          onChange={handleChange}
-        />
+      <div className={styles.formRow}>
+        <div className={styles.formGroup}>
+          <label htmlFor="product" className={styles.formLabel}>Produto</label>
+          <select
+            id="product"
+            name="productId"
+            className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            value={formData.productId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione um produto</option>
+            {products.map((product) => (
+              <option key={product.id} value={product.id}>
+                {product.name} (Preço: {formatAsBrazilianCurrency(product.price, true)})
+              </option>
+            ))}
+          </select>
+          
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="quantity" className={styles.formLabel}>Quantidade</label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            min="1"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            value={formData.quantity}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label className={styles.formLabel}>Valor Total</label>
+          <p className="mt-1 text-lg font-bold text-gray-900">
+            {formatAsBrazilianCurrency(totalValue, true)}
+          </p>
+        </div>
       </div>
       <div className={styles.formGroup}>
-        <label htmlFor="notes" className={styles.formLabel}>Observações</label>
+        <label htmlFor="notes" className={styles.formLabel}>Observações:</label>
         <textarea
           id="notes"
           name="notes"
-          className={styles.formTextarea}
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
           value={formData.notes}
           onChange={handleChange}
         ></textarea>

@@ -7,10 +7,15 @@ import { useClientStore } from '../../hooks/useClientStore'
 import ClientForm from '../clients/ClientForm'
 import DataSaleForm from '../clients/DataSaleForm'
 import ClientTableRow from '../clients/ClientTableRow'
-import { UserPlusIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import Card from '../ui/Card'
 import type { Client } from '../../types/client'
 import type { DataSaleFormData } from '../clients/DataSaleForm'
+import { 
+  UserPlusIcon, 
+  MagnifyingGlassIcon, 
+  ArrowDownTrayIcon,
+} from '@heroicons/react/24/outline'
+import Icon from '../common/Icon'
 
 const Clientes: React.FC = () => {
   const { clients, addClient, updateClient, deleteClient, getClientSegments } = useClientStore()
@@ -157,13 +162,16 @@ const Clientes: React.FC = () => {
           <div className={styles.listHeader}>
             <h3 className={styles.sectionTitle}>Lista de Clientes</h3>
             <div className={styles.searchContainer}>
-              <input
-                type="text"
-                placeholder="Buscar cliente..."
-                className={styles.searchInput}
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
+              <div className={styles.searchInputWrapper}>
+                <Icon icon={MagnifyingGlassIcon} className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Buscar cliente..."
+                  className={styles.searchInput}
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+              </div>
             </div>
           </div>
 
@@ -173,7 +181,9 @@ const Clientes: React.FC = () => {
               <tr>
                 <Table.HeaderCell>Nome</Table.HeaderCell>
                 <Table.HeaderCell>Segmento</Table.HeaderCell>
-                <Table.HeaderCell>Última Compra</Table.HeaderCell>
+                <Table.HeaderCell>Data</Table.HeaderCell>
+                <Table.HeaderCell>Produto</Table.HeaderCell>
+                <Table.HeaderCell>Quantidade</Table.HeaderCell>
                 <Table.HeaderCell>Valor</Table.HeaderCell>
                 <Table.HeaderCell>Ações</Table.HeaderCell>
               </tr>
@@ -309,6 +319,7 @@ const Clientes: React.FC = () => {
         confirmText="Excluir"
         cancelText="Cancelar"
         variant="danger"
+        
       />
 
       {/* Data Sale Modal */}

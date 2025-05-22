@@ -115,7 +115,7 @@ const Vendas: React.FC = () => {
 
   const metrics = [
     { title: 'Vendas do Mês', value: 'R$ 45.678,00', change: '+15%', trend: 'up' },
-    { title: 'Produtos em Estoque', value: '342', change: '-5%', trend: 'down' }
+    { title: 'Produtos em Estoque', value: '342' }
   ]
 
   return (

@@ -10,6 +10,8 @@ export interface Client {
   value: string
   address?: string
   notes?: string
+  productId?: string
+  quantity?: number
   createdAt: Date
   updatedAt: Date
 }

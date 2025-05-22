@@ -10,7 +10,7 @@ const Dashboard: React.FC = () => {
   const metrics = [
     { title: 'Vendas do Mês', value: 'R$ 45.678,00', change: '+15%', trend: 'up' },
     { title: 'Novos Clientes', value: '24', change: '+8%', trend: 'up' },
-    { title: 'Produtos em Estoque', value: '342', change: '-5%', trend: 'down' },
+    { title: 'Produtos em Estoque', value: '342', trend: 'down' },
     { title: 'Ordens Pendentes', value: '12', change: '+2', trend: 'up' }
   ]
   

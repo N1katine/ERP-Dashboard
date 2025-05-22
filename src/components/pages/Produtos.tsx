@@ -81,8 +81,6 @@ const Produtos: React.FC = () => {
     {
       title: 'Produtos em Estoque',
       value: products.length,
-      change: '-5%',
-      trend: 'down',
     },
   ]
 

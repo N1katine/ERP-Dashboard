@@ -1,9 +1,17 @@
 import * as React from 'react'
 import styles from './ClientTableRow.module.css'
 import Table from '../common/Table'
+import { 
+  ArrowDownTrayIcon,
+  ChartBarIcon,
+  DocumentTextIcon,
+  PhoneIcon,
+  BuildingOfficeIcon,
+  TagIcon
+} from '@heroicons/react/24/outline'
 import Icon from '../common/Icon'
-import { DocumentTextIcon, ChartBarIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import type { Client } from '../../types/client'
+import { useProductStore } from '../../hooks/useProductStore'
 
 interface ClientTableRowProps {
   client: Client
@@ -26,6 +34,9 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
   onToggleDetails,
   clientSegmentName
 }) => {
+  const { products } = useProductStore()
+  const selectedProduct = products.find(p => p.id === client.productId)
+
   return (
     <React.Fragment>
       <Table.Row 
@@ -40,26 +51,18 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
           </span>
         </Table.Cell>
         <Table.Cell>{client.lastPurchase}</Table.Cell>
-        <Table.Cell>{client.value}</Table.Cell>
+        <Table.Cell>{selectedProduct?.name || '-'}</Table.Cell>
+        <Table.Cell>{client.quantity}</Table.Cell>
+        <Table.Cell>R${client.value}</Table.Cell>
         <Table.Cell isActions>
-          <Table.ActionButton onClick={(e) => {
-            e.stopPropagation();
-            onToggleDetails();
-          }}>
+          <Table.ActionButton 
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleDetails();
+            }}
+          >
             {isSelected ? 'Ocultar' : 'Detalhes'}
           </Table.ActionButton>
-          <Table.EditButton onClick={(e) => {
-            e.stopPropagation();
-            onEdit(client);
-          }}>
-            Editar
-          </Table.EditButton>
-          <Table.DeleteButton onClick={(e) => {
-            e.stopPropagation();
-            onDelete(client);
-          }}>
-            Excluir
-          </Table.DeleteButton>
         </Table.Cell>
       </Table.Row>
       
@@ -68,6 +71,7 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
           <td colSpan={5}>
             <div className={styles.clientDetails}>
               <div className={styles.detailsGrid}>
+              {client.email && (
                 <div className={styles.detailItem}>
                   <Icon icon={DocumentTextIcon} className={styles.detailIcon} />
                   <div>
@@ -75,16 +79,19 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
                     <span className={styles.detailValue}>{client.email}</span>
                   </div>
                 </div>
-                <div className={styles.detailItem}>
-                  <Icon icon={DocumentTextIcon} className={styles.detailIcon} />
-                  <div>
-                    <span className={styles.detailLabel}>Telefone</span>
-                    <span className={styles.detailValue}>{client.phone}</span>
+              )}
+                {client.phone && (
+                  <div className={styles.detailItem}>
+                    <Icon icon={PhoneIcon} className={styles.detailIcon} />
+                    <div>
+                      <span className={styles.detailLabel}>Telefone</span>
+                      <span className={styles.detailValue}>{client.phone}</span>
+                    </div>
                   </div>
-                </div>
+                )}
                 {client.address && (
                   <div className={styles.detailItem}>
-                    <Icon icon={DocumentTextIcon} className={styles.detailIcon} />
+                    <Icon icon={BuildingOfficeIcon} className={styles.detailIcon} />
                     <div>
                       <span className={styles.detailLabel}>Endereço</span>
                       <span className={styles.detailValue}>{client.address}</span>
@@ -93,7 +100,7 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
                 )}
                 {client.notes && (
                   <div className={styles.detailItem}>
-                    <Icon icon={DocumentTextIcon} className={styles.detailIcon} />
+                    <Icon icon={TagIcon} className={styles.detailIcon} />
                     <div>
                       <span className={styles.detailLabel}>Observações</span>
                       <span className={styles.detailValue}>{client.notes}</span>
@@ -120,6 +127,18 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
                   <Icon icon={ArrowDownTrayIcon} className={styles.actionIcon} />
                   <span>Baixar Dados</span>
                 </button>
+                <Table.EditButton onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(client);
+                  }}>
+                    Editar
+                  </Table.EditButton>
+                  <Table.DeleteButton onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(client);
+                  }}>
+                    Excluir
+                  </Table.DeleteButton>
               </div>
             </div>
           </td>
