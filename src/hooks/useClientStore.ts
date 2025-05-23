@@ -2,9 +2,7 @@ import { useLocalStorage } from './useLocalStorage'
 import type { Client } from '../types/client'
 
 export function useClientStore() {
-  const [clients, setClients] = useLocalStorage<Client[]>('clients', [
-
-  ])
+  const [clients, setClients] = useLocalStorage<Client[]>('clients', [])
 
   // Add a new client
   const addClient = (client: Omit<Client, 'id' | 'createdAt' | 'updatedAt'>) => {
@@ -40,7 +38,9 @@ export function useClientStore() {
   }
 
   // Get a single client by ID
-  const getClient = (id: string) => {
+  const getClient = (id: string | undefined) => {
+    if(id === undefined) return
+    
     return clients.find((client) => client.id === id)
   }
 

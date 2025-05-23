@@ -5,6 +5,7 @@ export interface Sell {
     description: string
     stock: number
     productId: string
+    clientId?: string
     createdAt?: Date
     updatedAt?: Date
   }

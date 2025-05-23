@@ -16,7 +16,6 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ 
   isOpen = true,
-  onToggle
 }) => {
   const navigation = [
     { name: 'Dashboard', path: '/', icon: TableCellsIcon },
@@ -33,12 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         ) : (
           <span className={styles.title}>ERP</span>
         )}
-        <button 
-          onClick={onToggle}
-          className={styles.toggleButton}
-        >
-          {isOpen ? '◀' : '▶'}
-        </button>
+        
       </div>
       <nav className={styles.navContainer}>
         <ul>

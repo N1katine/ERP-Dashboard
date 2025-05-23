@@ -4,6 +4,8 @@ import {
 } from '../../lib/formatters'
 import type { Sell } from '../../types/sell'
 import { useProductStore } from '../../hooks/useProductStore'
+import { useClientStore } from '../../hooks/useClientStore'
+import type { Client } from '../../types/client'
 
 interface SellFormProps {
   sell?: Sell
@@ -13,9 +15,12 @@ interface SellFormProps {
 
 const SellForm: FC<SellFormProps> = ({ sell, onSubmit, onCancel }) => {
   const { products } = useProductStore()
+  const { clients, getClient } = useClientStore()
   const [quantity, setQuantity] = useState(sell?.stock?.toString() || '')
   const [description, setDescription] = useState(sell?.description || '')
   const [selectedProductId, setSelectedProductId] = useState(sell?.productId || '')
+  const [selectedClient, setSelectedClient] = useState<Client | undefined>(undefined)
+
 
   const selectedProduct = products.find(p => p.id === selectedProductId)
   const maxQuantity = selectedProduct?.stock || 0
@@ -35,6 +40,7 @@ const SellForm: FC<SellFormProps> = ({ sell, onSubmit, onCancel }) => {
       description,
       stock: quantityNum,
       productId: selectedProductId,
+      clientId: selectedClient?.id
     })
   }
 
@@ -61,6 +67,30 @@ const SellForm: FC<SellFormProps> = ({ sell, onSubmit, onCancel }) => {
           {products.map((product) => (
             <option key={product.id} value={product.id}>
               {product.name} (Estoque: {product.stock} - Preço: {formatAsBrazilianCurrency(product.price, true)})
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label
+          htmlFor="client"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Cliente
+        </label>
+        <select
+          id="client"
+          value={selectedClient?.id}
+          onChange={(e) => {
+            setSelectedClient(getClient(e.target.value))
+          }}
+          className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+        >
+          <option value="">Selecione o cliente</option>
+          {clients.map((client) => (
+            <option key={client.id} value={client.id}>
+              {client.name}
             </option>
           ))}
         </select>

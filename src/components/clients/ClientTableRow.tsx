@@ -7,11 +7,12 @@ import {
   DocumentTextIcon,
   PhoneIcon,
   BuildingOfficeIcon,
-  TagIcon
+  TagIcon,
+  CalendarIcon
 } from '@heroicons/react/24/outline'
 import Icon from '../common/Icon'
 import type { Client } from '../../types/client'
-import { useProductStore } from '../../hooks/useProductStore'
+import { formatDateToBrazilian } from '../../utils'
 
 interface ClientTableRowProps {
   client: Client
@@ -34,9 +35,6 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
   onToggleDetails,
   clientSegmentName
 }) => {
-  const { products } = useProductStore()
-  const selectedProduct = products.find(p => p.id === client.productId)
-
   return (
     <React.Fragment>
       <Table.Row 
@@ -50,9 +48,6 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
             {clientSegmentName}
           </span>
         </Table.Cell>
-        <Table.Cell>{client.lastPurchase}</Table.Cell>
-        <Table.Cell>{selectedProduct?.name || '-'}</Table.Cell>
-        <Table.Cell>{client.quantity}</Table.Cell>
         <Table.Cell>R${client.value}</Table.Cell>
         <Table.Cell isActions>
           <Table.ActionButton 
@@ -71,21 +66,30 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
           <td colSpan={5}>
             <div className={styles.clientDetails}>
               <div className={styles.detailsGrid}>
-              {client.email && (
-                <div className={styles.detailItem}>
-                  <Icon icon={DocumentTextIcon} className={styles.detailIcon} />
-                  <div>
-                    <span className={styles.detailLabel}>Email</span>
-                    <span className={styles.detailValue}>{client.email}</span>
+                {client.email && (
+                  <div className={styles.detailItem}>
+                    <Icon icon={DocumentTextIcon} className={styles.detailIcon} />
+                    <div>
+                      <span className={styles.detailLabel}>Email</span>
+                      <span className={styles.detailValue}>{client.email}</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
                 {client.phone && (
                   <div className={styles.detailItem}>
                     <Icon icon={PhoneIcon} className={styles.detailIcon} />
                     <div>
                       <span className={styles.detailLabel}>Telefone</span>
                       <span className={styles.detailValue}>{client.phone}</span>
+                    </div>
+                  </div>
+                )}
+                {client.birthDate && (
+                  <div className={styles.detailItem}>
+                    <Icon icon={CalendarIcon} className={styles.detailIcon} />
+                    <div>
+                      <span className={styles.detailLabel}>Data de Nascimento</span>
+                      <span className={styles.detailValue}>{formatDateToBrazilian(client.birthDate)}</span>
                     </div>
                   </div>
                 )}

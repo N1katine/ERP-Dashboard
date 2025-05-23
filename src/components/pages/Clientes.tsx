@@ -36,8 +36,7 @@ const Clientes: React.FC = () => {
   // Sample data for metrics and interactions
   const metrics = [
     { title: 'Total de Clientes', value: clients.length.toString() },
-    { title: 'Novos Clientes', value: '24', change: '+8%', trend: 'up' },
-    { title: 'Clientes Ativos', value: '65', change: '+5%', trend: 'up' },
+    { title: 'Novos Clientes', value: '24'},
     { title: 'Valor Médio', value: 'R$ 1.250', change: '+12%', trend: 'up' }
   ]
 
@@ -181,10 +180,7 @@ const Clientes: React.FC = () => {
               <tr>
                 <Table.HeaderCell>Nome</Table.HeaderCell>
                 <Table.HeaderCell>Segmento</Table.HeaderCell>
-                <Table.HeaderCell>Data</Table.HeaderCell>
-                <Table.HeaderCell>Produto</Table.HeaderCell>
-                <Table.HeaderCell>Quantidade</Table.HeaderCell>
-                <Table.HeaderCell>Valor</Table.HeaderCell>
+                <Table.HeaderCell>Receita</Table.HeaderCell>
                 <Table.HeaderCell>Ações</Table.HeaderCell>
               </tr>
             </Table.Head>

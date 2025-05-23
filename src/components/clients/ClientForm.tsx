@@ -17,7 +17,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
     email: client?.email || '',
     phone: client?.phone || '',
     segment: client?.segment || 'retail' as ClientSegment,
-    lastPurchase: client?.lastPurchase || '',
+    birthDate: client?.birthDate || '',
     value: client?.value || '',
     address: client?.address || '',
     notes: client?.notes || '',
@@ -102,13 +102,13 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
       </div>
       <div className={styles.formRow}>
         <div className={styles.formGroup}>
-          <label htmlFor="lastPurchase" className={styles.formLabel}>Data</label>
+          <label htmlFor="" className={styles.formLabel}>Data de Nascimento</label>
           <input 
             type="date" 
-            id="lastPurchase"
-            name="lastPurchase"
+            id="birthDate"
+            name="birthDate"
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-            value={formData.lastPurchase}
+            value={formData.birthDate}
             onChange={handleChange}
             required
           />
@@ -123,46 +123,6 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
             value={formData.address}
             onChange={handleChange}
           />
-        </div>
-      </div>
-      <div className={styles.formRow}>
-        <div className={styles.formGroup}>
-          <label htmlFor="product" className={styles.formLabel}>Produto</label>
-          <select
-            id="product"
-            name="productId"
-            className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-            value={formData.productId}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Selecione um produto</option>
-            {products.map((product) => (
-              <option key={product.id} value={product.id}>
-                {product.name} (Preço: {formatAsBrazilianCurrency(product.price, true)})
-              </option>
-            ))}
-          </select>
-          
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="quantity" className={styles.formLabel}>Quantidade</label>
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            min="1"
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-            value={formData.quantity}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label className={styles.formLabel}>Valor Total</label>
-          <p className="mt-1 text-lg font-bold text-gray-900">
-            {formatAsBrazilianCurrency(totalValue, true)}
-          </p>
         </div>
       </div>
       <div className={styles.formGroup}>

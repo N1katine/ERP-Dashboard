@@ -8,6 +8,8 @@ import { useProductStore } from '../../hooks/useProductStore'
 import SellForm from '../sells/SellForm'
 import ConfirmationModal from '../modals/ConfirmationModal'
 import type { Sell } from '../../types/sell'
+import type { Client } from '../../types/client'
+import useClientStore from '../../hooks/useClientStore'
 
 // Helper component for table rows
 const SellTableRow: React.FC<{
@@ -15,13 +17,15 @@ const SellTableRow: React.FC<{
   onEdit: (sell: Sell) => void
   onDelete: (sell: Sell) => void
   isLast: boolean
-}> = ({ sell, onEdit, onDelete, isLast }) => {
+  client?: Client
+
+}> = ({ sell, onEdit, onDelete, isLast, client}) => {
   return (
     <Table.Row isLast={isLast}>
       <Table.Cell>{sell.name}</Table.Cell>
       <Table.Cell>{sell.stock} unidades</Table.Cell>
       <Table.Cell>{formatCurrency(sell.price)}</Table.Cell>
-      <Table.Cell>Cliente</Table.Cell>
+      <Table.Cell>{client?.name}</Table.Cell>
       <Table.Cell isActions>
         <Table.EditButton onClick={() => onEdit(sell)}>
           Editar
@@ -38,6 +42,7 @@ const Vendas: React.FC = () => {
   const { sells, addSell, updateSell, deleteSell } =
     useSellStore()
   const { products, updateProduct } = useProductStore()
+  const {getClient} = useClientStore()
 
   // State for modals
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false)
@@ -155,7 +160,7 @@ const Vendas: React.FC = () => {
         <Table>
           <Table.Head>
             <tr>
-              <Table.HeaderCell>Nome</Table.HeaderCell>
+              <Table.HeaderCell>Produto</Table.HeaderCell>
               <Table.HeaderCell>Quantidade</Table.HeaderCell>
               <Table.HeaderCell>Preço</Table.HeaderCell>
               <Table.HeaderCell>Cliente</Table.HeaderCell>
@@ -178,6 +183,7 @@ const Vendas: React.FC = () => {
                   onEdit={openEditModal}
                   onDelete={openDeleteModal}
                   isLast={index === sells.length - 1}
+                	client={getClient(sell?.clientId)}
                 />
               ))
             )}

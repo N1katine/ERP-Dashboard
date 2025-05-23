@@ -6,12 +6,12 @@ export interface Client {
   email: string
   phone: string
   segment: ClientSegment
-  lastPurchase: string
   value: string
   address?: string
   notes?: string
   productId?: string
   quantity?: number
+  birthDate?: string
   createdAt: Date
   updatedAt: Date
 }
