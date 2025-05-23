@@ -15,10 +15,13 @@
     "@tanstack/react-query-devtools": "^5.76.1",
     "@tanstack/react-router": "^1.120.5",
     "@tanstack/react-router-devtools": "^1.120.5",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.0",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tanstack/router-cli": "^1.120.5",

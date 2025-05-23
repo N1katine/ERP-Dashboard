@@ -2,7 +2,6 @@ import * as React from 'react'
 import styles from './ClientForm.module.css'
 import type { Client, ClientSegment } from '../../types/client'
 import { useProductStore } from '../../hooks/useProductStore'
-import { formatAsBrazilianCurrency } from '../../lib/formatters'
 
 interface ClientFormProps {
   client?: Client

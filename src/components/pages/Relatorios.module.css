@@ -134,6 +134,10 @@
   @apply py-2 px-3 text-sm text-dark-600;
 }
 
+.tableCellId {
+  @apply py-2 px-3 text-sm text-dark-600 w-96;
+}
+
 .statusBadge {
   @apply px-2 inline-flex text-xs leading-5 font-medium rounded-full;
 }

@@ -7,6 +7,9 @@ import { formatCurrency, formatDate } from '../../lib/formatters';
 import type { Sell } from '../../types/sell';
 import type { Client } from '../../types/client';
 import type { Product } from '../../types/product';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 interface SalesReportData {
   totalValue: number;
@@ -99,6 +102,111 @@ const Relatorios: React.FC = () => {
     setIsLoading(false);
   };
 
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const reportTitle = reportTypes.find(r => r.id === selectedReport)?.name || 'Relatório';
+    const content = document.querySelector(`.${styles.reportContent}`)?.innerHTML || '';
+    const summary = document.querySelector(`.${styles.summaryRow}`)?.innerHTML || '';
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>${reportTitle}</title>
+          <style>
+            body { font-family: Arial, sans-serif; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f5f5f5; }
+            .summary { margin: 20px 0; }
+            .tableWrapper { margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <h1>${reportTitle}</h1>
+          <div class="summary">${summary}</div>
+          <div class="tableWrapper">${content.replace(summary, '')}</div>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.print();
+  };
+
+  const handleExportPDF = () => {
+    const doc = new jsPDF();
+    const reportTitle = reportTypes.find(r => r.id === selectedReport)?.name || 'Relatório';
+    
+    // Add title
+    doc.setFontSize(16);
+    doc.text(reportTitle, 14, 15);
+
+    // Add summary
+    const summary = document.querySelector(`.${styles.summaryRow}`);
+    if (summary) {
+      doc.setFontSize(10);
+      const summaryItems = summary.querySelectorAll(`.${styles.summaryItem}`);
+      let yPosition = 25;
+      
+      summaryItems.forEach((item, index) => {
+        const text = item.textContent || '';
+        doc.text(text, 14, yPosition + (index * 7));
+      });
+    }
+
+    // Add table
+    const table = document.querySelector(`.${styles.dataTable}`);
+    if (table) {
+      const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent || '');
+      const rows = Array.from(table.querySelectorAll('tbody tr')).map(tr => 
+        Array.from(tr.querySelectorAll('td')).map(td => td.textContent || '')
+      );
+      
+      autoTable(doc, {
+        head: [headers],
+        body: rows,
+        startY: 45,
+        theme: 'grid',
+        styles: { 
+          fontSize: 8,
+          cellPadding: 2
+        },
+        headStyles: { 
+          fillColor: [66, 139, 202],
+          textColor: 255,
+          fontSize: 9
+        },
+        columnStyles: {
+          0: { cellWidth: 40 }, // ID column
+          1: { cellWidth: 50 }, // Client column
+          2: { cellWidth: 30 }, // Value column
+          3: { cellWidth: 20 }, // Items column
+          4: { cellWidth: 30 }  // Date column
+        }
+      });
+    }
+
+    doc.save(`${reportTitle.toLowerCase().replace(/\s+/g, '_')}.pdf`);
+  };
+
+  const handleExportExcel = () => {
+    const reportTitle = reportTypes.find(r => r.id === selectedReport)?.name || 'Relatório';
+    const table = document.querySelector(`.${styles.dataTable}`);
+    
+    if (!table) return;
+
+    const rows = Array.from(table.querySelectorAll('tr')).map(tr => 
+      Array.from(tr.querySelectorAll('th, td')).map(cell => cell.textContent || '')
+    );
+
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Relatório');
+    XLSX.writeFile(wb, `${reportTitle.toLowerCase().replace(/\s+/g, '_')}.xlsx`);
+  };
+
   // Helper to render report content
   const renderReportContent = () => {
     if (isLoading) {
@@ -142,7 +250,7 @@ const Relatorios: React.FC = () => {
                   {salesData.filteredSells.length > 0 ? (
                     salesData.filteredSells.map((sell) => (
                       <tr key={sell.id}>
-                        <td className={styles.tableCell}>{sell.id.substring(0, 8)}...</td>
+                        <td className={styles.tableCellId}>{sell.id}</td>
                         <td className={styles.tableCell}>{sell.clientId ? clients.find(c => c.id === sell.clientId)?.name || '-' : '-'}</td>
                         <td className={styles.tableCell}>{formatCurrency(Number(sell.price))}</td>
                         <td className={styles.tableCell}>{sell.stock}</td>
@@ -322,9 +430,9 @@ const Relatorios: React.FC = () => {
               </h3>
               {/* Action buttons could be enabled when reportData exists */}
               <div className={styles.actionButtons}>
-                <button className={styles.actionButton} disabled={!reportData}>Imprimir</button>
-                <button className={styles.actionButton} disabled={!reportData}>Exportar PDF</button>
-                <button className={styles.actionButton} disabled={!reportData}>Exportar Excel</button>
+                <button className={styles.actionButton} disabled={!reportData} onClick={handlePrint}>Imprimir</button>
+                <button className={styles.actionButton} disabled={!reportData} onClick={handleExportPDF}>Exportar PDF</button>
+                <button className={styles.actionButton} disabled={!reportData} onClick={handleExportExcel}>Exportar Excel</button>
               </div>
             </div>
 
