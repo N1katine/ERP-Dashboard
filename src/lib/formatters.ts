@@ -29,11 +29,13 @@ export function formatCurrency(value: string | number): string {
 export function formatDate(date: Date | string): string {
   if (!date) return ''
   const dateObj = typeof date === 'string' ? new Date(date) : date
+  // Adjust for timezone offset
+  const adjustedDate = new Date(dateObj.getTime() + dateObj.getTimezoneOffset() * 60000)
   return new Intl.DateTimeFormat('pt-BR', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
-  }).format(dateObj)
+  }).format(adjustedDate)
 }
 
 /**

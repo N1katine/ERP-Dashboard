@@ -56,9 +56,6 @@ const Vendas: React.FC = () => {
     })
     .reduce((sum, sell) => sum + parseFloat(sell.price), 0)
 
-  // Calculate total products in stock
-  const totalProductsInStock = products.reduce((sum, product) => sum + product.stock, 0)
-
   // State for modals
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false)

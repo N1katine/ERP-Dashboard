@@ -1,4 +1,4 @@
-export type ClientSegment = 'retail' | 'wholesale' | 'corporate'
+export type ClientSegment = 'Varejo' | 'Atacado' | 'Corporativo'
 
 export interface Client {
   id: string

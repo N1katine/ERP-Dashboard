@@ -90,15 +90,15 @@
   @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
 }
 
-.segmentRetail {
+.segmentVarejo {
   @apply bg-blue-100 text-blue-800;
 }
 
-.segmentWholesale {
+.segmentAtacado {
   @apply bg-green-100 text-green-800;
 }
 
-.segmentCorporate {
+.segmentCorporativo {
   @apply bg-purple-100 text-purple-800;
 }
 
@@ -126,15 +126,15 @@
   @apply h-2 rounded-full;
 }
 
-.progressRetail {
+.progressVarejo {
   @apply bg-blue-500;
 }
 
-.progressWholesale {
+.progressAtacado {
   @apply bg-green-500;
 }
 
-.progressCorporate {
+.progressCorporativo {
   @apply bg-purple-500;
 }
 

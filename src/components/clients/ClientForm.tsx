@@ -16,7 +16,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
     name: client?.name || '',
     email: client?.email || '',
     phone: client?.phone || '',
-    segment: client?.segment || 'retail' as ClientSegment,
+    segment: client?.segment || 'Varejo' as ClientSegment,
     birthDate: client?.birthDate || '',
     value: client?.value || '',
     address: client?.address || '',
@@ -94,9 +94,9 @@ const ClientForm: React.FC<ClientFormProps> = ({ client, onSubmit, onCancel }) =
             onChange={handleChange}
             required
           >
-            <option value="retail">Varejo</option>
-            <option value="wholesale">Atacado</option>
-            <option value="corporate">Corporativo</option>
+            <option value="Varejo">Varejo</option>
+            <option value="Atacado">Atacado</option>
+            <option value="Corporativo">Corporativo</option>
           </select>
         </div>
       </div>

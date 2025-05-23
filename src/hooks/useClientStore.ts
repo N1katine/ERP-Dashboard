@@ -47,9 +47,9 @@ export function useClientStore() {
   // Get client segments with counts
   const getClientSegments = () => {
     const segments = [
-      { id: 'retail', name: 'Varejo', count: 0 },
-      { id: 'wholesale', name: 'Atacado', count: 0 },
-      { id: 'corporate', name: 'Corporativo', count: 0 }
+      { id: 'Varejo', name: 'Varejo', count: 0 },
+      { id: 'Atacado', name: 'Atacado', count: 0 },
+      { id: 'Corporativo', name: 'Corporativo', count: 0 }
     ]
     
     clients.forEach(client => {
