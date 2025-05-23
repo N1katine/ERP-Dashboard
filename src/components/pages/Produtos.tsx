@@ -100,11 +100,11 @@ const Produtos: React.FC = () => {
             <h3 className={styles.metricTitle}>{metric.title}</h3>
             <div className={styles.metricValue}>
               <p className={styles.metricNumber}>{metric.value}</p>
-              <span
+              {/* <span
                 className={`${styles.metricChange} ${metric.trend === 'up' ? styles.metricUp : styles.metricDown}`}
               >
                 {metric.change}
-              </span>
+              </span> */}
             </div>
           </div>
         ))}

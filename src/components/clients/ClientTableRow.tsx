@@ -13,6 +13,8 @@ import {
 import Icon from '../common/Icon'
 import type { Client } from '../../types/client'
 import { formatDateToBrazilian } from '../../utils'
+import { useSellStore } from '../../hooks/useSellStore'
+import { formatCurrency } from '../../lib/formatters'
 
 interface ClientTableRowProps {
   client: Client
@@ -35,6 +37,13 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
   onToggleDetails,
   clientSegmentName
 }) => {
+  const { sells } = useSellStore()
+  
+  // Calculate total value of sales for this client
+  const totalValue = sells
+    .filter(sell => sell.clientId === client.id)
+    .reduce((sum, sell) => sum + parseFloat(sell.price), 0)
+
   return (
     <React.Fragment>
       <Table.Row 
@@ -48,7 +57,7 @@ const ClientTableRow: React.FC<ClientTableRowProps> = ({
             {clientSegmentName}
           </span>
         </Table.Cell>
-        <Table.Cell>R${client.value}</Table.Cell>
+        <Table.Cell>{formatCurrency(totalValue)}</Table.Cell>
         <Table.Cell isActions>
           <Table.ActionButton 
             onClick={(e) => {

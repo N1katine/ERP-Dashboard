@@ -4,6 +4,7 @@ import Table from '../common/Table'
 import Modal from '../modals/Modal'
 import ConfirmationModal from '../modals/ConfirmationModal'
 import { useClientStore } from '../../hooks/useClientStore'
+import { useSellStore } from '../../hooks/useSellStore'
 import ClientForm from '../clients/ClientForm'
 import DataSaleForm from '../clients/DataSaleForm'
 import ClientTableRow from '../clients/ClientTableRow'
@@ -16,10 +17,15 @@ import {
   ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline'
 import Icon from '../common/Icon'
+import { formatCurrency } from '../../lib/formatters'
 
 const Clientes: React.FC = () => {
   const { clients, addClient, updateClient, deleteClient, getClientSegments } = useClientStore()
+  const { sells } = useSellStore()
   const clientSegments = getClientSegments()
+
+  // Calculate total revenue from all clients
+  const totalRevenue = sells.reduce((sum, sell) => sum + parseFloat(sell.price), 0)
 
   // State for search
   const [searchTerm, setSearchTerm] = React.useState('')
@@ -36,8 +42,8 @@ const Clientes: React.FC = () => {
   // Sample data for metrics and interactions
   const metrics = [
     { title: 'Total de Clientes', value: clients.length.toString() },
-    { title: 'Novos Clientes', value: '24'},
-    { title: 'Valor Médio', value: 'R$ 1.250', change: '+12%', trend: 'up' }
+    { title: 'Novos Clientes', value: '3', change: '+100%', trend: 'up'},
+    { title: 'Receita Total', value: formatCurrency(totalRevenue), change: '+100%', trend: 'up' }
   ]
 
   const recentInteractions = [

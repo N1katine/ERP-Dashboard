@@ -4,14 +4,39 @@ import styles from './Dashboard.module.css'
 import Icon from '../common/Icon'
 import Card from '../ui/Card'
 import { ClipboardDocumentListIcon, BanknotesIcon, UserGroupIcon, ArchiveBoxIcon, DocumentTextIcon } from '@heroicons/react/24/outline'
+import { useSellStore } from '../../hooks/useSellStore'
+import { useProductStore } from '../../hooks/useProductStore'
+import { useClientStore } from '../../hooks/useClientStore'
+import { formatCurrency } from '../../lib/formatters'
 
 const Dashboard: React.FC = () => {
-  // Sample data - in a real app, this would come from API calls
+  const { sells } = useSellStore()
+  const { products } = useProductStore()
+  const { clients } = useClientStore()
+
+  // Calculate monthly sales
+  const currentDate = new Date()
+  const currentMonth = currentDate.getMonth()
+  const currentYear = currentDate.getFullYear()
+  
+  const monthlySales = sells
+    .filter(sell => {
+      const sellDate = new Date(sell.createdAt || '')
+      return sellDate.getMonth() === currentMonth && sellDate.getFullYear() === currentYear
+    })
+    .reduce((sum, sell) => sum + parseFloat(sell.price), 0)
+
+  // Calculate new clients this month
+  const newClientsThisMonth = clients.filter(client => {
+    const clientDate = new Date(client.createdAt || '')
+    return clientDate.getMonth() === currentMonth && clientDate.getFullYear() === currentYear
+  }).length
+
+
   const metrics = [
-    { title: 'Vendas do Mês', value: 'R$ 45.678,00', change: '+15%', trend: 'up' },
-    { title: 'Novos Clientes', value: '24', change: '+8%', trend: 'up' },
-    { title: 'Produtos em Estoque', value: '342', trend: 'down' },
-    { title: 'Ordens Pendentes', value: '12', change: '+2', trend: 'up' }
+    { title: 'Vendas do Mês', value: formatCurrency(monthlySales), change: '+100%', trend: 'up' },
+    { title: 'Novos Clientes', value: newClientsThisMonth.toString(), change: '+100%', trend: 'up' },
+    { title: 'Produtos em Estoque', value: products.length, trend: 'down' }
   ]
   
   const recentActivities = [

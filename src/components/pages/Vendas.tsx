@@ -44,6 +44,21 @@ const Vendas: React.FC = () => {
   const { products, updateProduct } = useProductStore()
   const {getClient} = useClientStore()
 
+  // Calculate monthly sales
+  const currentDate = new Date()
+  const currentMonth = currentDate.getMonth()
+  const currentYear = currentDate.getFullYear()
+  
+  const monthlySales = sells
+    .filter(sell => {
+      const sellDate = new Date(sell.createdAt || '')
+      return sellDate.getMonth() === currentMonth && sellDate.getFullYear() === currentYear
+    })
+    .reduce((sum, sell) => sum + parseFloat(sell.price), 0)
+
+  // Calculate total products in stock
+  const totalProductsInStock = products.reduce((sum, product) => sum + product.stock, 0)
+
   // State for modals
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false)
@@ -119,8 +134,8 @@ const Vendas: React.FC = () => {
   }
 
   const metrics = [
-    { title: 'Vendas do Mês', value: 'R$ 45.678,00', change: '+15%', trend: 'up' },
-    { title: 'Produtos em Estoque', value: '342' }
+    { title: 'Vendas do Mês', value: formatCurrency(monthlySales), change: '+100%', trend: 'up' },
+    { title: 'Produtos em Estoque', value: products.length }
   ]
 
   return (
